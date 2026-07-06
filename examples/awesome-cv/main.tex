@@ -1,0 +1,121 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+\documentclass[11pt, a4paper]{awesome-cv}
+
+\geometry{left=1.4cm, top=.8cm, right=1.4cm, bottom=1.8cm, footskip=.5cm}
+
+\colorlet{awesome}{awesome-skyblue}
+\setbool{acvSectionColorHighlight}{true}
+\renewcommand{\acvHeaderSocialSep}{\quad\textbar\quad}
+
+\name{Your}{Name}
+\position{Senior Software Engineer}
+\address{Remote}
+
+\email{you@example.com}
+\mobile{+1~(555)~123~4567}
+\homepage{yoursite.com}
+\github{yourname}
+\linkedin{yourname}
+
+\begin{document}
+
+\makecvheader[C]
+
+\makecvfooter
+  {\today}
+  {Your Name~~~\textperiodcentered~~~R\'esum\'e}
+  {\thepage}
+
+\cvsection{Summary}
+\begin{cvparagraph}
+Software engineer with 10+ years of experience building distributed systems, cloud-native platforms, and high-scale web applications. Strong track record of leading cross-functional teams, improving engineering practices, and delivering reliable products from concept to production.
+\end{cvparagraph}
+
+\cvsection{Experience}
+\begin{cventries}
+
+\cventry
+  {Staff Software Engineer}
+  {Acme Technologies}
+  {Remote}
+  {2022 -- Present}
+  {
+    \begin{cvitems}
+      \item {Designed and implemented event-driven services on AWS using Kubernetes and Terraform.}
+      \item {Improved deployment reliability by reducing release failures by 60\%.}
+      \item {Mentored senior and mid-level engineers and drove adoption of engineering standards.}
+    \end{cvitems}
+  }
+
+\cventry
+  {Senior Software Engineer}
+  {Northwind Labs}
+  {Seattle, WA}
+  {2017 -- 2022}
+  {
+    \begin{cvitems}
+      \item {Delivered high-availability backend services in Java and Go.}
+      \item {Introduced observability and automated testing practices that accelerated releases.}
+      \item {Partnered with product and infrastructure teams to scale services globally.}
+    \end{cvitems}
+  }
+
+\cventry
+  {Software Engineer}
+  {Brightwave}
+  {Austin, TX}
+  {2013 -- 2017}
+  {
+    \begin{cvitems}
+      \item {Built responsive frontends and REST APIs.}
+      \item {Improved application performance and reduced support issues.}
+      \item {Collaborated closely with designers and product managers to ship features quickly.}
+    \end{cvitems}
+  }
+
+\end{cventries}
+
+\cvsection{Technical Skills}
+\begin{cvskills}
+  \cvskill{Languages}{Java, Go, Python, C\#, JavaScript/TypeScript, SQL}
+  \cvskill{Cloud \& Platforms}{AWS, Kubernetes, Docker, Terraform, CI/CD}
+  \cvskill{Data \& Systems}{Microservices, Distributed Systems, REST APIs, Event-Driven Architecture, PostgreSQL, Redis}
+  \cvskill{Engineering Practices}{Agile, System Design, Testing, Code Review, Mentoring, Performance Optimization}
+\end{cvskills}
+
+\cvsection{Education}
+\begin{cventries}
+  \cventry
+    {B.S. Computer Science}
+    {University of Example}
+    {Example City, ST}
+    {2009 -- 2013}
+    {}
+\end{cventries}
+
+\cvsection{Selected Projects}
+\begin{cventries}
+  \cventry
+    {Platform Modernization}
+    {}
+    {}
+    {}
+    {
+      \begin{cvitems}
+        \item {Led migration of a legacy monolith to a cloud-native microservices architecture, reducing infrastructure costs and improving reliability.}
+      \end{cvitems}
+    }
+  \cventry
+    {Developer Experience}
+    {}
+    {}
+    {}
+    {
+      \begin{cvitems}
+        \item {Built internal tooling and CI improvements that cut onboarding time for new engineers in half.}
+      \end{cvitems}
+    }
+\end{cventries}
+
+\end{document}

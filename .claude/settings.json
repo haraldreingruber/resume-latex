@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(kpsewhich altacv.cls)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(kpsewhich awesome-cv.cls)",
+      "Bash(printf '\\\\\\\\documentclass{altacv}\\\\n\\\\\\\\begin{document}\\\\nhello\\\\n\\\\\\\\end{document}\\\\n')",
+      "Bash(pdflatex -interaction=nonstopmode test-altacv.tex)",
+      "Bash(mpm --version)",
+      "Bash(mpm --find-updates)",
+      "Bash(mpm --install=altacv)",
+      "Bash(xelatex -interaction=nonstopmode -file-line-error main.tex)",
+      "Bash(pdflatex -interaction=nonstopmode -file-line-error main.tex)"
+    ]
+  }
+}
