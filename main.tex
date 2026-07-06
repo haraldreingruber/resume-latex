@@ -1,61 +1,139 @@
-\documentclass[11pt,sans]{moderncv}
+\documentclass[10pt,a4paper,withhyper]{altacv}
 
-\moderncvstyle{banking}
-\moderncvcolor{blue}
-\usepackage[scale=0.8]{geometry}
-\setlength{\hintscolumnwidth}{3cm}
-\microtypesetup{expansion=false}
+\geometry{left=1.25cm,right=1.25cm,top=1.5cm,bottom=1.5cm,columnsep=1.2cm}
 
-\name{Your}{Name}
-\title{Senior Software Engineer}
-\email{you@example.com}
-\phone{+1~(555)~123~4567}
-\homepage{yoursite.com}
-\social[github]{github.com/yourname}
-\social[linkedin]{linkedin.com/in/yourname}
+\usepackage{paracol}
+
+% This example is compiled with pdflatex, so use the CTAN roboto/lato
+% packages (already installed alongside this template) rather than fontspec.
+\iftutex
+  \setmainfont{Roboto Slab}
+  \setsansfont{Lato}
+  \renewcommand{\familydefault}{\sfdefault}
+\else
+  \usepackage[rm]{roboto}
+  \usepackage[defaultsans]{lato}
+  \renewcommand{\familydefault}{\sfdefault}
+\fi
+
+\definecolor{SlateGrey}{HTML}{2E2E2E}
+\definecolor{LightGrey}{HTML}{666666}
+\definecolor{DarkPastelRed}{HTML}{03396C}
+\definecolor{PastelRed}{HTML}{005B96}
+\definecolor{GoldenEarth}{HTML}{6497B1}
+\colorlet{name}{black}
+\colorlet{tagline}{PastelRed}
+\colorlet{heading}{DarkPastelRed}
+\colorlet{headingrule}{GoldenEarth}
+\colorlet{subheading}{PastelRed}
+\colorlet{accent}{PastelRed}
+\colorlet{emphasis}{SlateGrey}
+\colorlet{body}{LightGrey}
+
+\renewcommand{\cvItemMarker}{{\small\textbullet}}
 
 \begin{document}
-\makecvtitle
+\name{Your Name}
+\tagline{Senior Software Engineer}
 
-\section{Summary}
-\cvitem{}{Software engineer with 10+ years of experience building distributed systems, cloud-native platforms, and high-scale web applications. Strong track record of leading cross-functional teams, improving engineering practices, and delivering reliable products from concept to production.}
+\personalinfo{%
+  \email{you@example.com}
+  \phone{+1~(555)~123~4567}
+  \location{Remote}
+  \homepage{yoursite.com}
+  \github{yourname}
+  \linkedin{yourname}
+}
 
-\section{Experience}
-\cventry{2022--Present}{Staff Software Engineer}{Acme Technologies}{Remote}{}{
-Lead architecture and delivery for a multi-service platform serving millions of users.
+\makecvheader
+
+\columnratio{0.65}
+
+\begin{paracol}{2}
+
+\cvsection{Summary}
+Software engineer with 10+ years of experience building distributed systems, cloud-native platforms, and high-scale web applications. Strong track record of leading cross-functional teams, improving engineering practices, and delivering reliable products from concept to production.
+
+\cvsection{Experience}
+
+\cvevent{Staff Software Engineer}{Acme Technologies}{2022 -- Present}{Remote}
 \begin{itemize}
 \item Designed and implemented event-driven services on AWS using Kubernetes and Terraform
 \item Improved deployment reliability by reducing release failures by 60\%
 \item Mentored senior and mid-level engineers and drove adoption of engineering standards
-\end{itemize}}
+\end{itemize}
 
-\cventry{2017--2022}{Senior Software Engineer}{Northwind Labs}{Seattle, WA}{}{
-Built and maintained platform services and customer-facing features for a fast-growing SaaS product.
+\divider
+
+\cvevent{Senior Software Engineer}{Northwind Labs}{2017 -- 2022}{Seattle, WA}
 \begin{itemize}
 \item Delivered high-availability backend services in Java and Go
 \item Introduced observability and automated testing practices that accelerated releases
 \item Partnered with product and infrastructure teams to scale services globally
-\end{itemize}}
+\end{itemize}
 
-\cventry{2013--2017}{Software Engineer}{Brightwave}{Austin, TX}{}{
-Developed web applications and internal tools supporting business operations.
+\divider
+
+\cvevent{Software Engineer}{Brightwave}{2013 -- 2017}{Austin, TX}
 \begin{itemize}
 \item Built responsive frontends and REST APIs
 \item Improved application performance and reduced support issues
 \item Collaborated closely with designers and product managers to ship features quickly
-\end{itemize}}
+\end{itemize}
 
-\section{Technical Skills}
-\cvitem{}{Languages: Java, Go, Python, C\#, JavaScript/TypeScript, SQL}
-\cvitem{}{Cloud \& Platforms: AWS, Kubernetes, Docker, Terraform, CI/CD}
-\cvitem{}{Data \& Systems: Microservices, Distributed Systems, REST APIs, Event-Driven Architecture, PostgreSQL, Redis}
-\cvitem{}{Engineering Practices: Agile, System Design, Testing, Code Review, Mentoring, Performance Optimization}
+\cvsection{Selected Projects}
 
-\section{Education}
-\cventry{2009--2013}{B.S. Computer Science}{University of Example}{Example City, ST}{}{}
+\cvevent{Platform Modernization}{}{}{}
+Led migration of a legacy monolith to a cloud-native microservices architecture, reducing infrastructure costs and improving reliability.
 
-\section{Selected Projects}
-\cvitem{Platform Modernization}{Led migration of a legacy monolith to a cloud-native microservices architecture, reducing infrastructure costs and improving reliability.}
-\cvitem{Developer Experience}{Built internal tooling and CI improvements that cut onboarding time for new engineers in half.}
+\divider
+
+\cvevent{Developer Experience}{}{}{}
+Built internal tooling and CI improvements that cut onboarding time for new engineers in half.
+
+\switchcolumn
+
+\cvsection{Technical Skills}
+
+\cvtag{Java}
+\cvtag{Go}
+\cvtag{Python}
+\cvtag{C\#}
+\cvtag{JavaScript/TypeScript}\\
+\cvtag{SQL}
+
+\divider\smallskip
+
+\cvtag{AWS}
+\cvtag{Kubernetes}
+\cvtag{Docker}
+\cvtag{Terraform}\\
+\cvtag{CI/CD}
+
+\divider\smallskip
+
+\cvtag{Microservices}
+\cvtag{Distributed Systems}\\
+\cvtag{REST APIs}
+\cvtag{Event-Driven Architecture}\\
+\cvtag{PostgreSQL}
+\cvtag{Redis}
+
+\medskip
+
+\cvsection{Engineering Practices}
+\begin{itemize}
+\item Agile
+\item System Design
+\item Testing \& Code Review
+\item Mentoring
+\item Performance Optimization
+\end{itemize}
+
+\cvsection{Education}
+
+\cvevent{B.S.\ Computer Science}{University of Example}{2009 -- 2013}{Example City, ST}
+
+\end{paracol}
 
 \end{document}
