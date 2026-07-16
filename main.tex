@@ -34,7 +34,7 @@
 
 \begin{document}
 \name{Harald Reingruber}
-\tagline{Visual Computing Expert \& Software Crafter}
+\tagline{Medical 3D Visualization Expert \& Software Crafter}
 
 \personalinfo{%
   \email{harald.reingruber@gmail.com}
@@ -51,52 +51,63 @@
 \begin{paracol}{2}
 
 \cvsection{Summary}
-Specialist in augmented reality, real-time graphics, and visualization technologies, with a track record spanning medical imaging, AR/VR SDKs, and web-based 3D streaming. Advocates for simple but clever solutions to complex problems, with a strong emphasis on clean code and continuous improvement.
+Specialist in medical 3D visualization, real-time graphics, and augmented reality, with 15+ years spanning medical imaging, AR/VR SDKs, and web-based 3D streaming --- currently leading a Rust/WebAssembly modernization of a legacy C++ visualization engine. Advocates for simple but clever solutions to complex problems, with a strong emphasis on clean code, TDD, and continuous improvement.
 
 \cvsection{Experience}
 
-% TODO: Missing current role. LinkedIn shows 5+ years at Dedalus HealthCare
-% DACH (Vienna), but title, exact dates, and responsibilities are not public.
-\cvevent{[Job Title Needed]}{Dedalus HealthCare DACH}{[Start Date] -- Present}{Vienna, Austria}
+\cvevent{Medical 3D Visualization Expert}{Dedalus HealthCare DACH}{11/2020 -- Present}{Scharnstein, Austria}
 \begin{itemize}
-\item \textit{Details needed --- see missing information below}
+\item Led the technical transformation of Dedalus' medical 3D visualization module, migrating from a legacy C++/DirectX~9 codebase to a modern Rust + WebAssembly + WebGL/OpenGL and TypeScript stack
+\item Ran technology evaluations to select the optimal stack for web deployment
+\item Engineered a side-by-side comparison system enabling precise performance and visual validation during the migration
+\item Established a comprehensive testing strategy, achieving high test coverage and improved software reliability
 \end{itemize}
 
 \divider
 
-\cvevent{Software Engineer}{three10}{09/2016 -- 10/2019}{Vienna, Austria}
+\cvevent{Pair \& Mob-Programming Tour (Apprenticeship)}{Self-employed}{11/2019 -- 05/2020}{Worldwide}
 \begin{itemize}
-\item Principal engineer overseeing secure communication and backend architecture (TypeScript, React, Node.js)
-\item Built a JavaScript library for streaming Unity 3D graphics via a low-latency video codec to HTML5 browsers
-\item Developed Server-Sent-Events infrastructure for backend-to-client data pushes
-\item Established the Docker deployment pipeline and managed Git/GitLab/CI infrastructure
+\item Practiced TDD and pair/mob programming with teams around the world across various languages and environments
+\item Co-organized the Mob-Programming on Open Source Software meetup in Austria
 \end{itemize}
 
 \divider
 
-\cvevent{Software Engineer (C++/Objective-C/Java)}{ViewAR}{04/2015 -- 08/2016}{Vienna, Austria}
+\cvevent{Software Engineer --- Unity 3D/Node.js/React/TypeScript}{three10}{09/2016 -- 10/2019}{Vienna, Austria}
 \begin{itemize}
-\item Led development of the C++ core module and integrated third-party AR/VR SDKs
-\item Created an algorithm to compute scanned object volumes via watertight 3D mesh generation
-\item Cross-compiled the ViewAR core to JavaScript/WebAssembly using Emscripten
-\item Implemented video texture decoding support
+\item One of two principal engineers (team of 6); owned secure communication and file transfer between the Unity 3D application and the on-premise backend, plus the Docker/TypeScript/React/Node.js backend architecture
+\item Built a JavaScript library for real-time streaming of server-side Unity 3D graphics to an HTML5 browser via a low-latency video codec
+\item Implemented HTML5 Server-Sent-Events for backend-to-client data updates (C\# client, Node.js server)
+\item Built the Docker deployment pipeline for the on-premise backend and implemented network screen capture/streaming
+\item Principal technical contact during the Audi software security certification process
 \end{itemize}
 
 \divider
 
-\cvevent{3D Volume Rendering Engineer}{Agfa HealthCare}{10/2013 -- 04/2015}{Vienna, Austria}
+\cvevent{Software Engineer, Augmented Reality (C++/Objective-C/JavaScript)}{ViewAR}{04/2015 -- 08/2016}{Vienna, Austria}
 \begin{itemize}
-\item Extended and maintained a GPU/CPU rendering engine with SIMD optimization
-\item Implemented bi-cubic filtering for WebGL image resampling
-\item Established a CMake build system, replacing multiple platform-specific scripts
+\item Principal engineer on the C++ team; extended the ViewAR core module and integrated third-party AR/VR SDKs
+\item Computed watertight 3D triangle meshes from depth-sensor scans and an algorithm to derive scanned object volume (used in a Lufthansa Cargo pallet-volume system)
+\item Cross-compiled the ViewAR C++ core to JavaScript/WebGL using Emscripten/WebAssembly
+\item Added video texture decoding support
 \end{itemize}
 
 \divider
 
-\cvevent{Software Engineer, 3D Visualization}{Agfa HealthCare}{09/2010 -- 10/2013}{Vienna, Austria}
+\cvevent{3D Volume Rendering Engineer (C++)}{Agfa HealthCare}{10/2013 -- 04/2015}{Vienna, Austria}
 \begin{itemize}
-\item Implemented progressive volume image data loading (patent claimed)
-\item Developed blood vessel visualization features and 2D annotation rendering
+\item Main engineer for Agfa's GPU/CPU volume rendering engine (team of 8 across Austria, Belgium, Canada), with SIMD-optimized CPU rendering
+\item Implemented bi-cubic filtering to improve WebGL low-resolution image resampling quality
+\item Built a CMake build system, replacing separate per-platform build scripts
+\end{itemize}
+
+\divider
+
+\cvevent{Software Engineer, 3D Visualization (Java)}{Agfa HealthCare}{09/2010 -- 09/2013}{Vienna, Austria}
+\begin{itemize}
+\item Implemented and maintained 3D visualization and volume image data loading features (team of 22)
+\item Implemented progressive loading of volume image data (patent granted)
+\item Built normal-plane visualization for the unfolded blood vessel view and improved 2D annotation intersection rendering
 \end{itemize}
 
 \cvsection{Selected Projects \& Research}
@@ -113,10 +124,11 @@ Specialist in augmented reality, real-time graphics, and visualization technolog
 
 \cvsection{Technical Skills}
 
-\cvtag{C\#}
-\cvtag{C++}
+\cvtag{Rust}
 \cvtag{TypeScript/JavaScript}
-\cvtag{Java}\\
+\cvtag{C++}
+\cvtag{C\#}\\
+\cvtag{Java}
 \cvtag{WebAssembly/Emscripten}
 \cvtag{Matlab}
 
@@ -140,6 +152,7 @@ Specialist in augmented reality, real-time graphics, and visualization technolog
 \cvtag{SIMD (SSE/AVX/Neon)}
 \cvtag{OpenCL}
 \cvtag{CUDA}
+\cvtag{Image Processing}
 
 \divider\smallskip
 
@@ -155,9 +168,9 @@ Specialist in augmented reality, real-time graphics, and visualization technolog
 \begin{itemize}
 \item Unit Testing \& TDD
 \item Agile (Scrum/Kanban)
+\item Continuous Improvement
 \item Clean Code
 \item Computer Vision \& AR/VR
-\item High-Performance Computing
 \end{itemize}
 
 \cvsection{Education}
