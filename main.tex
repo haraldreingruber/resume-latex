@@ -33,16 +33,15 @@
 \renewcommand{\cvItemMarker}{{\small\textbullet}}
 
 \begin{document}
-\name{Your Name}
-\tagline{Senior Software Engineer}
+\name{Harald Reingruber}
+\tagline{Visual Computing Expert \& Software Crafter}
 
 \personalinfo{%
-  \email{you@example.com}
-  \phone{+1~(555)~123~4567}
-  \location{Remote}
-  \homepage{yoursite.com}
-  \github{yourname}
-  \linkedin{yourname}
+  \email{harald.reingruber@gmail.com}
+  \location{Scharnstein, Upper Austria, Austria}
+  \homepage{resume.h-reingruber.at}
+  \github{haraldreingruber-dedalus}
+  \linkedin{haraldreingruber}
 }
 
 \makecvheader
@@ -52,87 +51,133 @@
 \begin{paracol}{2}
 
 \cvsection{Summary}
-Software engineer with 10+ years of experience building distributed systems, cloud-native platforms, and high-scale web applications. Strong track record of leading cross-functional teams, improving engineering practices, and delivering reliable products from concept to production.
+Specialist in augmented reality, real-time graphics, and visualization technologies, with a track record spanning medical imaging, AR/VR SDKs, and web-based 3D streaming. Advocates for simple but clever solutions to complex problems, with a strong emphasis on clean code and continuous improvement.
 
 \cvsection{Experience}
 
-\cvevent{Staff Software Engineer}{Acme Technologies}{2022 -- Present}{Remote}
+% TODO: Missing current role. LinkedIn shows 5+ years at Dedalus HealthCare
+% DACH (Vienna), but title, exact dates, and responsibilities are not public.
+\cvevent{[Job Title Needed]}{Dedalus HealthCare DACH}{[Start Date] -- Present}{Vienna, Austria}
 \begin{itemize}
-\item Designed and implemented event-driven services on AWS using Kubernetes and Terraform
-\item Improved deployment reliability by reducing release failures by 60\%
-\item Mentored senior and mid-level engineers and drove adoption of engineering standards
+\item \textit{Details needed --- see missing information below}
 \end{itemize}
 
 \divider
 
-\cvevent{Senior Software Engineer}{Northwind Labs}{2017 -- 2022}{Seattle, WA}
+\cvevent{Software Engineer}{three10}{09/2016 -- 10/2019}{Vienna, Austria}
 \begin{itemize}
-\item Delivered high-availability backend services in Java and Go
-\item Introduced observability and automated testing practices that accelerated releases
-\item Partnered with product and infrastructure teams to scale services globally
+\item Principal engineer overseeing secure communication and backend architecture (TypeScript, React, Node.js)
+\item Built a JavaScript library for streaming Unity 3D graphics via a low-latency video codec to HTML5 browsers
+\item Developed Server-Sent-Events infrastructure for backend-to-client data pushes
+\item Established the Docker deployment pipeline and managed Git/GitLab/CI infrastructure
 \end{itemize}
 
 \divider
 
-\cvevent{Software Engineer}{Brightwave}{2013 -- 2017}{Austin, TX}
+\cvevent{Software Engineer (C++/Objective-C/Java)}{ViewAR}{04/2015 -- 08/2016}{Vienna, Austria}
 \begin{itemize}
-\item Built responsive frontends and REST APIs
-\item Improved application performance and reduced support issues
-\item Collaborated closely with designers and product managers to ship features quickly
+\item Led development of the C++ core module and integrated third-party AR/VR SDKs
+\item Created an algorithm to compute scanned object volumes via watertight 3D mesh generation
+\item Cross-compiled the ViewAR core to JavaScript/WebAssembly using Emscripten
+\item Implemented video texture decoding support
 \end{itemize}
-
-\cvsection{Selected Projects}
-
-\cvevent{Platform Modernization}{}{}{}
-Led migration of a legacy monolith to a cloud-native microservices architecture, reducing infrastructure costs and improving reliability.
 
 \divider
 
-\cvevent{Developer Experience}{}{}{}
-Built internal tooling and CI improvements that cut onboarding time for new engineers in half.
+\cvevent{3D Volume Rendering Engineer}{Agfa HealthCare}{10/2013 -- 04/2015}{Vienna, Austria}
+\begin{itemize}
+\item Extended and maintained a GPU/CPU rendering engine with SIMD optimization
+\item Implemented bi-cubic filtering for WebGL image resampling
+\item Established a CMake build system, replacing multiple platform-specific scripts
+\end{itemize}
+
+\divider
+
+\cvevent{Software Engineer, 3D Visualization}{Agfa HealthCare}{09/2010 -- 10/2013}{Vienna, Austria}
+\begin{itemize}
+\item Implemented progressive volume image data loading (patent claimed)
+\item Developed blood vessel visualization features and 2D annotation rendering
+\end{itemize}
+
+\cvsection{Selected Projects \& Research}
+
+\cvevent{Master's Thesis --- Austrian Institute of Technology}{}{10/2009 -- 07/2010}{Vienna}
+``An Asynchronous Data Interface for Event-based Stereo Vision Systems'' --- improved 3D reconstruction accuracy through event density-based pixel retention adjustment.
+
+\divider
+
+\cvevent{Final Year Project --- Computer Vision Center}{}{02/2009 -- 07/2009}{Barcelona}
+``Intestinal Content Detection in Capsule Endoscopy using Robust Features'' --- developed an SVM detector achieving 71\% accuracy for clinical image analysis.
 
 \switchcolumn
 
 \cvsection{Technical Skills}
 
-\cvtag{Java}
-\cvtag{Go}
-\cvtag{Python}
 \cvtag{C\#}
-\cvtag{JavaScript/TypeScript}\\
-\cvtag{SQL}
+\cvtag{C++}
+\cvtag{TypeScript/JavaScript}
+\cvtag{Java}\\
+\cvtag{WebAssembly/Emscripten}
+\cvtag{Matlab}
 
 \divider\smallskip
 
-\cvtag{AWS}
-\cvtag{Kubernetes}
+\cvtag{Unity 3D}
+\cvtag{Ogre}
+\cvtag{OpenGL/WebGL}
+\cvtag{DirectX}
+
+\divider\smallskip
+
+\cvtag{OpenCV}
+\cvtag{Point Cloud Library}\\
+\cvtag{Vuforia}
+\cvtag{Kudan}
+\cvtag{Intel RealSense}
+
+\divider\smallskip
+
+\cvtag{SIMD (SSE/AVX/Neon)}
+\cvtag{OpenCL}
+\cvtag{CUDA}
+
+\divider\smallskip
+
+\cvtag{CMake}
+\cvtag{Git}
 \cvtag{Docker}
-\cvtag{Terraform}\\
-\cvtag{CI/CD}
-
-\divider\smallskip
-
-\cvtag{Microservices}
-\cvtag{Distributed Systems}\\
-\cvtag{REST APIs}
-\cvtag{Event-Driven Architecture}\\
-\cvtag{PostgreSQL}
-\cvtag{Redis}
+\cvtag{Jenkins}
+\cvtag{SonarQube}
 
 \medskip
 
 \cvsection{Engineering Practices}
 \begin{itemize}
-\item Agile
-\item System Design
-\item Testing \& Code Review
-\item Mentoring
-\item Performance Optimization
+\item Unit Testing \& TDD
+\item Agile (Scrum/Kanban)
+\item Clean Code
+\item Computer Vision \& AR/VR
+\item High-Performance Computing
 \end{itemize}
 
 \cvsection{Education}
 
-\cvevent{B.S.\ Computer Science}{University of Example}{2009 -- 2013}{Example City, ST}
+\cvevent{MSc Computer Science, Visual Computing}{Vienna University of Technology}{10/2007 -- 10/2011}{Vienna, Austria}
+Image processing, real-time graphics, machine learning, pattern recognition, computer vision, augmented reality.
+
+\divider
+
+\cvevent{Exchange Program}{Universitat Aut\`onoma de Barcelona}{02/2009 -- 07/2009}{Barcelona, Spain}
+Feature detection (SIFT/SURF), machine learning.
+
+\divider
+
+\cvevent{BSc Computer Science, Medical Software Engineering}{Upper Austria University of Applied Sciences}{09/2005 -- 07/2007}{Hagenberg, Austria}
+
+\cvsection{Languages}
+\cvtag{German (Native)}
+\cvtag{English (Fluent)}
+\cvtag{Spanish (Conversational)}
 
 \end{paracol}
 
