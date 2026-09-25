@@ -12,9 +12,9 @@ Specialist in medical 3D visualization, real-time graphics, and augmented realit
 
 | Period | Role | Company |
 | --- | --- | --- |
-| 11/2020 – present | Medical 3D Visualization Expert | Dedalus HealthCare DACH (remote) |
+| 11/2020 – present | Medical 3D Visualization Expert (Rust/TypeScript) | Dedalus HealthCare (remote) |
 | 11/2019 – 05/2020 | Pair & Mob-Programming Tour (apprenticeship) | Self-employed (remote, worldwide) |
-| 09/2016 – 10/2019 | Software Engineer – Unity 3D/Node.js/React/TypeScript | three10, Vienna |
+| 09/2016 – 10/2019 | Software Engineer,  Unity 3D/Node.js/React/TypeScript | three10, Vienna |
 | 04/2015 – 08/2016 | Software Engineer, Augmented Reality (C++/Objective-C/JavaScript) | ViewAR, Vienna |
 | 10/2013 – 04/2015 | 3D Volume Rendering Engineer (C++) | Agfa HealthCare, Vienna |
 | 09/2010 – 09/2013 | Software Engineer, 3D Visualization (Java) | Agfa HealthCare, Vienna |
