@@ -88,25 +88,14 @@ enum Text {
 }
 
 fn markdown(text: &RichText) -> String {
-    text.spans()
-        .iter()
-        .map(|span| {
-            let mut out = markdown_escape(&span.text);
-            if span.style.code {
-                out = format!("`{}`", span.text);
-            }
-            if span.style.italic {
-                out = format!("*{out}*");
-            }
-            if span.style.bold {
-                out = format!("**{out}**");
-            }
-            if let Some(url) = &span.link {
-                out = format!("[{out}]({url})");
-            }
-            out
-        })
-        .collect()
+    crate::spans::render(
+        text,
+        markdown_escape,
+        |_escaped, raw| format!("`{raw}`"),
+        |s| format!("*{s}*"),
+        |s| format!("**{s}**"),
+        |s, url| format!("[{s}]({url})"),
+    )
 }
 
 /// Escapes characters with inline meaning in (GitHub-flavored) Markdown,
@@ -123,40 +112,22 @@ fn markdown_escape(text: &str) -> String {
 }
 
 fn html(text: &RichText) -> String {
-    text.spans()
-        .iter()
-        .map(|span| {
-            let mut out = html_escape(&span.text);
-            if span.style.code {
-                out = format!("<code>{out}</code>");
-            }
-            if span.style.italic {
-                out = format!("<em>{out}</em>");
-            }
-            if span.style.bold {
-                out = format!("<strong>{out}</strong>");
-            }
-            if let Some(url) = &span.link {
-                out = format!("<a href=\"{}\">{out}</a>", html_escape(url));
-            }
-            out
-        })
-        .collect()
+    crate::spans::render(
+        text,
+        html_escape,
+        |escaped, _raw| format!("<code>{escaped}</code>"),
+        |s| format!("<em>{s}</em>"),
+        |s| format!("<strong>{s}</strong>"),
+        |s, url| format!("<a href=\"{}\">{s}</a>", html_escape(url)),
+    )
 }
 
+/// Delegates to minijinja's own HTML escaper -- the same one that escapes
+/// every un-filtered `{{ }}` in plain.html.j2 via the auto-escape callback
+/// above -- so plain and rich-text fields are escaped by exactly one rule
+/// instead of two independently hand-maintained copies of it.
 fn html_escape(text: &str) -> String {
-    let mut out = String::with_capacity(text.len());
-    for c in text.chars() {
-        match c {
-            '&' => out.push_str("&amp;"),
-            '<' => out.push_str("&lt;"),
-            '>' => out.push_str("&gt;"),
-            '"' => out.push_str("&quot;"),
-            '\'' => out.push_str("&#39;"),
-            _ => out.push(c),
-        }
-    }
-    out
+    minijinja::HtmlEscape(text).to_string()
 }
 
 #[cfg(test)]
@@ -191,7 +162,29 @@ mod tests {
     fn renders_html() {
         assert_eq!(
             html(&sample()),
-            "a *b* &lt;c&gt; <a href=\"https://x.org/?a=1&amp;b=2\"><em>d</em></a>"
+            "a *b* &lt;c&gt; <a href=\"https:&#x2f;&#x2f;x.org&#x2f;?a=1&amp;b=2\"><em>d</em></a>"
         );
+    }
+
+    fn code_sample() -> RichText {
+        RichText(vec![Span {
+            text: "a*b*<c>".into(),
+            style: Style {
+                code: true,
+                ..Style::default()
+            },
+            link: None,
+        }])
+    }
+
+    #[test]
+    fn renders_markdown_code_span_verbatim() {
+        // Markdown code spans are verbatim: no escaping inside backticks.
+        assert_eq!(markdown(&code_sample()), "`a*b*<c>`");
+    }
+
+    #[test]
+    fn renders_html_code_span_escaped() {
+        assert_eq!(html(&code_sample()), "<code>a*b*&lt;c&gt;</code>");
     }
 }

@@ -5,6 +5,7 @@
 //! fails when one is out of date, so LaTeX builds never need Rust.
 
 mod latex;
+mod spans;
 mod templates;
 
 use std::path::{Path, PathBuf};

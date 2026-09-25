@@ -213,11 +213,23 @@ mod tests {
                 .windows(2)
                 .all(|w| (w[0].font, w[0].ch) < (w[1].font, w[1].ch))
         );
+        // Every character the real, baked resume content needs must have a
+        // glyph -- derived from the actual content (the same way build.rs
+        // derives the atlas) rather than a hand-picked sample, so it can't
+        // drift out of sync with content/resume.yaml.
+        let resume = crate::content::resume();
         for font in [Font::Regular, Font::Bold] {
-            for ch in "Harald Reingruber – 3D · “Rust” & C#".chars() {
+            for ch in resume.all_text().chars().filter(|c| !c.is_control()) {
                 assert!(glyph(font, ch).is_some(), "{font:?} {ch:?}");
             }
         }
+        // Regression check for the non-breaking space in the Dedalus
+        // highlight ("DirectX&nbsp;9"): it must be baked even though U+00A0
+        // never appears literally in content/resume.yaml's raw bytes.
+        assert!(
+            glyph(Font::Regular, '\u{a0}').is_some(),
+            "non-breaking space (U+00A0) must have a baked glyph"
+        );
     }
 
     #[test]

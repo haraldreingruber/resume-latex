@@ -23,6 +23,119 @@ impl Resume {
     pub fn skill_group(&self, id: &str) -> Option<&SkillGroup> {
         self.skills.iter().find(|group| group.id == id)
     }
+
+    /// Concatenates every text field, e.g. to derive the full set of
+    /// characters a renderer needs to be able to display. Destructures each
+    /// struct exhaustively (binding unused fields to `_`) so that adding a
+    /// field to this module without updating this method is a compile error,
+    /// not a silent gap.
+    ///
+    /// Deliberately not `format!("{self:?}")`: `Debug` for `str` escapes some
+    /// characters that look like plain ASCII (e.g. U+00A0 non-breaking space
+    /// becomes the literal text `\u{a0}`), which would hide their real form
+    /// from a caller collecting characters.
+    pub fn all_text(&self) -> String {
+        let Resume {
+            basics,
+            work,
+            projects,
+            skills,
+            education,
+            languages,
+        } = self;
+        let mut text = String::new();
+
+        let Basics {
+            name,
+            label,
+            email,
+            location,
+            profiles,
+            summary,
+        } = basics;
+        text.push_str(name);
+        text.push_str(label);
+        text.push_str(email);
+        text.push_str(&location.to_string());
+        for Profile {
+            network,
+            username,
+            url: _,
+        } in profiles
+        {
+            text.push_str(network);
+            text.push_str(username);
+        }
+        text.push_str(&summary.plain());
+
+        for Work {
+            id: _,
+            position,
+            organization,
+            location,
+            dates: _,
+            summary,
+            highlights,
+        } in work
+        {
+            text.push_str(position);
+            text.push_str(organization);
+            text.extend(location.iter().map(String::as_str));
+            text.extend(summary.iter().map(RichText::plain));
+            text.extend(highlights.iter().map(RichText::plain));
+        }
+
+        for Project {
+            id: _,
+            kind,
+            entity,
+            title,
+            description,
+            location,
+            dates: _,
+        } in projects
+        {
+            text.extend(kind.iter().map(String::as_str));
+            text.extend(entity.iter().map(String::as_str));
+            text.push_str(title);
+            text.extend(description.iter().map(RichText::plain));
+            text.extend(location.iter().map(String::as_str));
+        }
+
+        for SkillGroup {
+            id: _,
+            name,
+            keywords,
+        } in skills
+        {
+            text.push_str(name);
+            text.extend(keywords.iter().map(String::as_str));
+        }
+
+        for Education {
+            id: _,
+            study_type,
+            area,
+            institution,
+            location,
+            dates: _,
+            courses,
+        } in education
+        {
+            text.extend(study_type.iter().map(String::as_str));
+            text.extend(area.iter().map(String::as_str));
+            text.push_str(institution);
+            text.extend(location.iter().map(String::as_str));
+            text.extend(courses.iter().map(String::as_str));
+        }
+
+        for Language { language, fluency } in languages {
+            text.push_str(language);
+            text.extend(fluency.iter().map(String::as_str));
+        }
+
+        text
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -170,10 +283,30 @@ impl fmt::Display for Language {
 }
 
 /// A date with year or month precision.
+///
+/// The derived `Ord` compares `(year, month)` lexicographically, so it treats
+/// a year-only date as earlier than *any* month within that year (`None <
+/// Some(_)`, as `Option`'s own `Ord` does). That is correct for sorting, but
+/// wrong for asking "is this definitely before that", since a year-only date
+/// actually spans the whole year -- use [`PartialDate::earliest`] /
+/// [`PartialDate::latest`] for that (see `date_range` in resume-model's
+/// loader).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct PartialDate {
     pub year: u16,
     pub month: Option<u8>,
+}
+
+impl PartialDate {
+    /// The earliest point this date could refer to (a missing month becomes January).
+    pub fn earliest(self) -> (u16, u8) {
+        (self.year, self.month.unwrap_or(1))
+    }
+
+    /// The latest point this date could refer to (a missing month becomes December).
+    pub fn latest(self) -> (u16, u8) {
+        (self.year, self.month.unwrap_or(12))
+    }
 }
 
 impl fmt::Display for PartialDate {

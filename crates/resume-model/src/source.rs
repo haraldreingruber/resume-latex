@@ -68,7 +68,10 @@ pub struct Profile {
 #[derive(Debug, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct Work {
-    /// Stable id, unique across the whole resume (used by the 3D app).
+    /// Stable id, unique across the whole resume. Not currently referenced by
+    /// any renderer (the 3D app's `?station=N` deep link is a numeric index
+    /// into `work`, not this id) -- reordering `work` changes what a saved
+    /// deep link points to.
     #[serde(rename = "x-id")]
     pub id: String,
     /// Job title.

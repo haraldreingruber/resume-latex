@@ -16,6 +16,7 @@ use fdsm::shape::Shape;
 use fdsm::transform::Transform;
 use image::{RgbImage, RgbaImage};
 use nalgebra::{Affine2, Similarity2, Vector2};
+use resume_model::Resume;
 use ttf_parser::Face;
 
 /// Font files, indexed by `text::Font` in the app.
@@ -45,14 +46,21 @@ fn main() {
     let bytes = postcard::to_allocvec(&resume).expect("serialize resume");
     fs::write(out.join("resume.postcard"), bytes).unwrap();
 
-    let chars = charset(&fs::read_to_string(&content).unwrap());
+    let chars = charset(&resume);
     bake_atlas(&manifest, &out, &chars);
 }
 
-/// Every character of the YAML (a superset of the displayed text), printable
-/// ASCII, and typographic characters produced by normalization.
-fn charset(yaml: &str) -> BTreeSet<char> {
-    yaml.chars()
+/// Every character the normalized resume content can display, plus printable
+/// ASCII and typographic characters the app hardcodes for UI (not sourced
+/// from the resume, e.g. the path's "•" in scene.rs).
+///
+/// Uses `Resume::all_text()` (every field, exhaustively) rather than the raw
+/// YAML, so characters produced only by Markdown/entity normalization --
+/// e.g. `&nbsp;` becoming an actual U+00A0 -- still get a glyph baked.
+fn charset(resume: &Resume) -> BTreeSet<char> {
+    resume
+        .all_text()
+        .chars()
         .chain(' '..='~')
         .chain(EXTRA_CHARS.chars())
         .filter(|c| !c.is_control())

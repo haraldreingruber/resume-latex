@@ -329,8 +329,13 @@ impl Normalizer {
     fn date_range(&mut self, path: &str, start: &str, end: Option<&str>) -> DateRange {
         let start = self.date(&format!("{path}.startDate"), start);
         let end = end.map(|end| self.date(&format!("{path}.endDate"), end));
+        // Only flag ranges that are wrong under every possible reading of a
+        // missing month: e.g. startDate 2020-06 / endDate 2020 ("ended
+        // sometime in 2020") is fine, since end's latest possible point
+        // (2020-12) isn't before start's earliest (2020-06). A plain `<`
+        // would wrongly reject that, since `None < Some(_)` always.
         if let Some(end) = end
-            && end < start
+            && end.latest() < start.earliest()
         {
             self.error(path, format!("endDate {end} is before startDate {start}"));
         }
@@ -484,6 +489,31 @@ basics:
                 "work[1]: endDate 2019 is before startDate 2020",
                 "work[2].x-id: `Bad_Id` must be kebab-case ([a-z0-9-]+)",
             ]
+        );
+    }
+
+    #[test]
+    fn accepts_ranges_where_a_missing_month_makes_the_order_ambiguous() {
+        // "started 2020-06, ended sometime in 2020" is a normal way to write
+        // an entry -- not an inverted range, even though a naive comparison
+        // of (year, month) tuples would treat the year-only end as earlier.
+        let resume = load_str(&with_work(
+            "  - { x-id: a, position: Dev, name: Acme, startDate: '2020-06', endDate: '2020' }",
+        ))
+        .unwrap();
+        assert_eq!(resume.work[0].dates.end.unwrap().to_string(), "2020");
+    }
+
+    #[test]
+    fn rejects_ranges_that_are_invalid_regardless_of_precision() {
+        // endDate 2019 (year-only) is before startDate 2020-06 under *every*
+        // possible month, unlike the ambiguous case above.
+        let errors = errors(&with_work(
+            "  - { x-id: a, position: Dev, name: Acme, startDate: '2020-06', endDate: '2019' }",
+        ));
+        assert_eq!(
+            errors,
+            ["work[0]: endDate 2019 is before startDate 06/2020"]
         );
     }
 

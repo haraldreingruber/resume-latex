@@ -8,6 +8,7 @@
 
 use std::fmt::Write;
 
+use anyhow::bail;
 use resume_model::{Education, Project, Resume, RichText, SkillGroup, Work};
 
 /// Macros whose argument is a skill-group id; `main.tex` references groups
@@ -17,6 +18,24 @@ pub const SKILL_MACROS: &[&str] = &[
     "ResumeSkillName",
     "ResumeSkillTags",
     "ResumeSkillItems",
+];
+
+/// Info-field macros AltaCV defines via `\NewInfoField` in altacv.cls. A
+/// `basics.profiles[].network` must lowercase to one of these, since it
+/// becomes a LaTeX control-sequence name (`\csname <network>\endcsname`);
+/// anything else compiles here but fails pdflatex with an undefined-command
+/// error deep in the generated file.
+const ALTACV_NETWORKS: &[&str] = &[
+    "email",
+    "mailaddress",
+    "phone",
+    "homepage",
+    "twitter",
+    "xtwitter",
+    "linkedin",
+    "github",
+    "orcid",
+    "location",
 ];
 
 const HEADER: &str = "\
@@ -29,6 +48,18 @@ const HEADER: &str = "\
 
 pub fn render(resume: &Resume) -> anyhow::Result<String> {
     let basics = &resume.basics;
+    for profile in &basics.profiles {
+        let network = profile.network.to_lowercase();
+        if !ALTACV_NETWORKS.contains(&network.as_str()) {
+            bail!(
+                "basics.profiles: network `{}` isn't one of AltaCV's info fields ({}) -- \
+                 pdflatex would fail on an undefined \\{network} command",
+                profile.network,
+                ALTACV_NETWORKS.join(", "),
+            );
+        }
+    }
+
     let mut out = String::from(HEADER);
 
     let _ = writeln!(out);
@@ -209,25 +240,14 @@ fn education(education: &Education) -> String {
 }
 
 pub fn rich(text: &RichText) -> String {
-    text.spans()
-        .iter()
-        .map(|span| {
-            let mut out = escape(&span.text);
-            if span.style.code {
-                out = format!("\\texttt{{{out}}}");
-            }
-            if span.style.italic {
-                out = format!("\\emph{{{out}}}");
-            }
-            if span.style.bold {
-                out = format!("\\textbf{{{out}}}");
-            }
-            if let Some(url) = &span.link {
-                out = format!("\\href{{{}}}{{{out}}}", escape_url(url));
-            }
-            out
-        })
-        .collect()
+    crate::spans::render(
+        text,
+        escape,
+        |escaped, _raw| format!("\\texttt{{{escaped}}}"),
+        |s| format!("\\emph{{{s}}}"),
+        |s| format!("\\textbf{{{s}}}"),
+        |s, url| format!("\\href{{{}}}{{{s}}}", escape_url(url)),
+    )
 }
 
 /// Plain Unicode text to LaTeX (pdflatex with utf8 inputenc + T1 fontenc).
@@ -304,6 +324,39 @@ mod tests {
             rich(&text),
             "see \\href{https://x.org/a\\#b}{\\textbf{docs}}"
         );
+    }
+
+    #[test]
+    fn rejects_a_profile_network_altacv_does_not_define() {
+        let yaml = "\
+basics:
+  name: A
+  label: B
+  email: a@b.com
+  location: { city: X }
+  summary: S
+  profiles:
+    - { network: Mastodon, username: u, url: https://example.com }
+";
+        let resume = resume_model::load_str(yaml).unwrap_or_else(|e| panic!("{e}"));
+        let error = render(&resume).unwrap_err();
+        assert!(error.to_string().contains("Mastodon"), "{error}");
+    }
+
+    #[test]
+    fn accepts_altacv_profile_networks_case_insensitively() {
+        let yaml = "\
+basics:
+  name: A
+  label: B
+  email: a@b.com
+  location: { city: X }
+  summary: S
+  profiles:
+    - { network: GitHub, username: u, url: https://github.com/u }
+";
+        let resume = resume_model::load_str(yaml).unwrap_or_else(|e| panic!("{e}"));
+        assert!(render(&resume).unwrap().contains("\\ResumeInfo{github}{u}"));
     }
 }
 
