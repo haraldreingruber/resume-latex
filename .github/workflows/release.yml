@@ -1,8 +1,9 @@
 name: Release
 
-# Push a tag like `v0.1.0` to build the native apps and attach them, plus the
-# PDF, to a GitHub Release. The binaries are unsigned, so Windows SmartScreen
-# and macOS Gatekeeper will warn on first launch.
+# Push a tag like `v0.1.0` to test and build the native apps (via the shared
+# native.yml, same as CI) and attach them, plus the PDF, to a GitHub Release.
+# The binaries are unsigned, so Windows SmartScreen and macOS Gatekeeper will
+# warn on first launch.
 on:
   push:
     tags: ["v*"]
@@ -15,49 +16,15 @@ env:
 
 jobs:
   native:
-    name: ${{ matrix.name }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: Linux x86_64
-            os: ubuntu-latest
-            archive: resume-3d-linux-x86_64.tar.gz
-          - name: Windows x86_64
-            os: windows-latest
-            archive: resume-3d-windows-x86_64.zip
-          - name: macOS arm64
-            os: macos-latest
-            archive: resume-3d-macos-arm64.tar.gz
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v5
-      - name: Install toolchain from rust-toolchain.toml
-        run: rustup toolchain install
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo build -p resume-3d --release
-      - name: Package (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          "Binary size: $((Get-Item target/release/resume-3d.exe).Length) bytes" >> $env:GITHUB_STEP_SUMMARY
-          Compress-Archive -Path target/release/resume-3d.exe -DestinationPath ${{ matrix.archive }}
-      - name: Package (Unix)
-        if: runner.os != 'Windows'
-        run: |
-          echo "Binary size: $(wc -c < target/release/resume-3d) bytes" >> "$GITHUB_STEP_SUMMARY"
-          tar -czf ${{ matrix.archive }} -C target/release resume-3d
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.archive }}
-          path: ${{ matrix.archive }}
+    name: Native
+    uses: ./.github/workflows/native.yml
 
   latex:
     name: PDF
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - uses: xu-cheng/latex-action@v3
+      - uses: xu-cheng/latex-action@v4
         with:
           working_directory: latex
           root_file: main.tex
